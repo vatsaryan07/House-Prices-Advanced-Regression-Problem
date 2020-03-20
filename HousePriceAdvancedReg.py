@@ -29,7 +29,7 @@ print(x["Neighborhood"])
 #plt.bar(key,arr,width=.3)
 #plt.show()
 
-lt = x.loc[:,('SalePrice','MSZoning')]
+lt = x.loc[:,('SalePrice','MSZoning')]                  //MSZoning plotted against the SalePrice
 xt = lt.groupby('MSZoning')
 arr = np.array(xt.mean())
 arr = arr.reshape(-1)
@@ -38,7 +38,7 @@ key = xt.groups.keys()
 #plt.bar(key,arr)
 #plt.show()
 
-for k in range(len(x)):
+for k in range(len(x)):                     
     if(x.loc[k,"MSZoning"] == 'A'):
         x.loc[k, "MSZoning"] = 0
     elif(x.loc[k,"MSZoning"] == 'C (all)'):
@@ -55,7 +55,7 @@ for k in range(len(x)):
         x.loc[k, "MSZoning"] = 6
 
 #print(x["MSZoning"])
-lt = x.loc[:,('SalePrice','SaleCondition')]
+lt = x.loc[:,('SalePrice','SaleCondition')]                         //Sale Condition plotted against Sale Price
 xt = lt.groupby('SaleCondition')
 arr = np.array(xt.mean())
 arr = arr.reshape(-1)
@@ -76,7 +76,7 @@ for l in range(len(x)):
     else:
          x.loc[l,"SaleCondition"] = 4
 
-lt = x.loc[:,('SalePrice','Street')]
+lt = x.loc[:,('SalePrice','Street')]                        //Street Plotted against SalePrice
 xt = lt.groupby('Street')
 arr = np.array(xt.mean())
 arr = arr.reshape(-1)
@@ -618,8 +618,7 @@ dt = x.loc[:,('MSSubClass','MSZoning','LotFrontage','LotArea','Street','Alley',
        'SaleType','SaleCondition','YrSold')]#dt= x.loc[:,('GarageType','BsmtQual','BsmtFinType1','BsmtUnfSF','BsmtFinSF2','BsmtFinSF1','Condition1','Condition2','RoofMatl','Exterior1st','Exterior2nd','YrSold','ExterCond','CentralAir','MiscVal','WoodDeckSF','PavedDrive','TotalBsmtSF','BsmtFinType1','BsmtQual','BsmtCond','MasVnrArea','RoofStyle','LotConfig','LotFrontage','Exterior1st','MSZoning','SaleType','Fireplaces','LotArea','SaleCondition','Condition1','BldgType','RoofStyle','Neighborhood','YearBuilt','KitchenQual','FullBath','HalfBath','BsmtFullBath','BsmtHalfBath','GrLivArea','1stFlrSF','2ndFlrSF','MSZoning','HouseStyle','Utilities','LotShape','Street','SaleCondition','OverallCond','OverallQual','ExterQual','PoolQC','FireplaceQu','Foundation','GarageCars','GarageArea','LandContour','YearRemodAdd','TotRmsAbvGrd')]#,'GarageCars','GarageArea',,'ExterCond')]
 #with pd.option_context('display.max_rows', None, 'display.max_columns', None):
    # print(dt)
-sv = SVR(kernel='rbf',max_iter = 300)#,gamma=0.000000000001,max_iter = 500)
-ri.fit(dt,x["SalePrice"])
+ri.fit(dt,x["SalePrice"])                                                            #Using the default ridge classifier
 dd = newdata.loc[:,('MSSubClass','MSZoning','LotFrontage','LotArea','Street','Alley',
                     'LotShape','LandContour','LotConfig','LandSlope','Neighborhood',
        'LotConfig','LandSlope','Condition1','Condition2','BldgType','HouseStyle', 'OverallQual', 'OverallCond',
@@ -634,9 +633,7 @@ dd = newdata.loc[:,('MSSubClass','MSZoning','LotFrontage','LotArea','Street','Al
        'EnclosedPorch', '3SsnPorch', 'ScreenPorch', 'PoolArea',
        'Fence','MiscFeature','MiscVal',
        'SaleType','SaleCondition','YrSold')]
-#dd = newdata.loc[:,('GarageType','BsmtQual','BsmtFinType1','BsmtUnfSF','BsmtFinSF2','BsmtFinSF1','Condition1','Condition2','RoofMatl','Exterior1st','Exterior2nd','YrSold','ExterCond','CentralAir','MiscVal','WoodDeckSF','PavedDrive','TotalBsmtSF','BsmtFinType1','BsmtQual','BsmtCond','MasVnrArea','RoofStyle','LotConfig','LotFrontage','Exterior1st','MSZoning','SaleType','Fireplaces','LotArea','SaleCondition','Condition1','BldgType','RoofStyle','Neighborhood','YearBuilt','KitchenQual','FullBath','HalfBath','BsmtFullBath','BsmtHalfBath','GrLivArea','1stFlrSF','2ndFlrSF','MSZoning','HouseStyle','Utilities','LotShape','Street','SaleCondition','OverallCond','OverallQual','ExterQual','PoolQC','FireplaceQu','Foundation','GarageCars','GarageArea','LandContour','YearRemodAdd','TotRmsAbvGrd')]#,'YearRemodAdd','GarageCars','GarageArea',,'ExterCond')]
-# with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
-#   print(dt)
+
 dnew = ri.predict(dd)
 newframe = pd.DataFrame({"Id":newdata["Id"],"SalePrice":dnew})
 print(newframe)
